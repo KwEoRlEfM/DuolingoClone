@@ -10,7 +10,10 @@
       "Bash(git push *)",
       "Bash(findstr credential *)",
       "Bash(git -c credential.helper= push -u origin main)",
-      "Bash(gh auth *)"
+      "Bash(gh auth *)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(awk '{print $NF}')"
     ]
   }
 }

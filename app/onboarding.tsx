@@ -66,7 +66,7 @@ export default function Onboarding() {
       <View className="px-6 pb-7">
         <TouchableOpacity
           className="bg-lingua-purple rounded-[18px] py-5 flex-row items-center justify-center gap-2"
-          onPress={() => router.push("/")}
+          onPress={() => router.push("/(auth)/sign-up")}
           activeOpacity={0.85}
         >
           <Text
