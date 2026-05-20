@@ -13,7 +13,7 @@ export default function Onboarding() {
       <View className="flex-row items-center justify-center mt-6 gap-2">
         <Image
           source={images.mascotLogo}
-          style={styles.logoImage}
+          className="w-9 h-9"
           resizeMode="contain"
         />
         <Text className="typography--h3 text-foreground">lingua</Text>
@@ -31,36 +31,50 @@ export default function Onboarding() {
       </Text>
 
       {/* Mascot + floating chat bubbles */}
-      <View style={styles.mascotContainer}>
+      <View className="flex-1 items-center justify-center relative">
         <Image
           source={images.mascotWelcome}
-          style={styles.mascot}
+          className="w-[270px] h-[270px]"
           resizeMode="contain"
         />
 
-        <View style={[styles.bubble, styles.bubbleHello]}>
+        <View
+          className="absolute bg-white rounded-[20px] px-4 py-[10px] bottom-[22%] left-[12%]"
+          style={styles.shadow}
+        >
           <Text className="typography--body-lg text-foreground">Hello!</Text>
         </View>
 
-        <View style={[styles.bubble, styles.bubbleHola]}>
+        <View
+          className="absolute bg-white rounded-[20px] px-4 py-[10px] top-[6%] right-[12%]"
+          style={styles.shadow}
+        >
           <Text className="typography--body-lg text-foreground">¡Hola!</Text>
         </View>
 
-        <View style={[styles.bubble, styles.bubbleChinese]}>
-          <Text className="typography--body-lg" style={styles.chineseText}>
+        <View
+          className="absolute bg-white rounded-[20px] px-4 py-[10px] bottom-[34%] right-[10%]"
+          style={styles.shadow}
+        >
+          <Text className="typography--body-lg" style={{ color: "#e85d4a" }}>
             你好!
           </Text>
         </View>
       </View>
 
       {/* Get Started button */}
-      <View style={styles.buttonContainer}>
+      <View className="px-6 pb-7">
         <TouchableOpacity
-          style={styles.button}
+          className="bg-lingua-purple rounded-[18px] py-5 flex-row items-center justify-center gap-2"
           onPress={() => router.push("/")}
           activeOpacity={0.85}
         >
-          <Text style={styles.buttonText}>Get Started</Text>
+          <Text
+            className="text-white text-[17px]"
+            style={{ fontFamily: "Poppins-SemiBold" }}
+          >
+            Get Started
+          </Text>
           <Ionicons name="chevron-forward" size={22} color="#ffffff" />
         </TouchableOpacity>
       </View>
@@ -73,63 +87,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
   },
-  logoImage: {
-    width: 36,
-    height: 36,
-  },
-  mascotContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-  },
-  mascot: {
-    width: 270,
-    height: 270,
-  },
-  bubble: {
-    position: "absolute",
-    backgroundColor: "#ffffff",
-    borderRadius: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+  shadow: {
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 5,
-  },
-  bubbleHello: {
-    bottom: "22%",
-    left: "12%",
-  },
-  bubbleHola: {
-    top: "6%",
-    right: "12%",
-  },
-  bubbleChinese: {
-    bottom: "34%",
-    right: "10%",
-  },
-  chineseText: {
-    color: "#e85d4a",
-  },
-  buttonContainer: {
-    paddingHorizontal: 24,
-    paddingBottom: 28,
-  },
-  button: {
-    backgroundColor: "#6c4ef5",
-    borderRadius: 18,
-    paddingVertical: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-  buttonText: {
-    fontFamily: "Poppins-SemiBold",
-    fontSize: 17,
-    color: "#ffffff",
   },
 });
