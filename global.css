@@ -1,0 +1,117 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
+@import "nativewind/theme";
+
+@theme {
+  /* ── Brand Primary ─────────────────────────────────────── */
+  --color-lingua-purple: #6c4ef5;
+  --color-lingua-deep-purple: #5b3bf6;
+  --color-lingua-blue: #4d88ff;
+  --color-lingua-green: #21c168;
+
+  /* ── Semantic ───────────────────────────────────────────── */
+  --color-success: #21c168;
+  --color-warning: #ffcb00;
+  --color-streak: #ff8a00;
+  --color-error: #ff4d4f;
+  --color-info: #4d88ff;
+
+  /* ── Neutral ────────────────────────────────────────────── */
+  --color-foreground: #001132;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-surface: #f6f7fb;
+  --color-background: #ffffff;
+
+  /* ── Font family ────────────────────────────────────────── */
+  --font-poppins: "Poppins", system-ui, sans-serif;
+}
+
+/* ── Typography scale (BEM: .typography--{level}) ──────────── */
+/* Color is intentionally excluded — apply text-* color utilities separately */
+@layer utilities {
+  .typography--h1 {
+    font-family: "Poppins-Bold";
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 38px;
+  }
+
+  .typography--h2 {
+    font-family: "Poppins-SemiBold";
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 31px;
+  }
+
+  .typography--h3 {
+    font-family: "Poppins-SemiBold";
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 26px;
+  }
+
+  .typography--h4 {
+    font-family: "Poppins-Medium";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+  }
+
+  .typography--body-lg {
+    font-family: "Poppins-Regular";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+  }
+
+  .typography--body-md {
+    font-family: "Poppins-Regular";
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+
+  .typography--body-sm {
+    font-family: "Poppins-Regular";
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 21px;
+  }
+
+  .typography--caption {
+    font-family: "Poppins-Regular";
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 15px;
+  }
+}
+
+/* ── Brand color utilities (explicit — safe for NativeWind v5 preview) ─── */
+@layer utilities {
+  .text-lingua-purple     { color: #6c4ef5; }
+  .text-lingua-deep-purple { color: #5b3bf6; }
+  .text-lingua-blue       { color: #4d88ff; }
+  .text-lingua-green      { color: #21c168; }
+  .text-foreground        { color: #001132; }
+  .text-muted             { color: #6b7280; }
+  .text-success           { color: #21c168; }
+  .text-warning           { color: #ffcb00; }
+  .text-streak            { color: #ff8a00; }
+  .text-error             { color: #ff4d4f; }
+
+  .bg-lingua-purple      { background-color: #6c4ef5; }
+  .bg-lingua-deep-purple { background-color: #5b3bf6; }
+  .bg-lingua-blue        { background-color: #4d88ff; }
+  .bg-lingua-green       { background-color: #21c168; }
+  .bg-surface            { background-color: #f6f7fb; }
+  .bg-success            { background-color: #21c168; }
+  .bg-warning            { background-color: #ffcb00; }
+  .bg-streak             { background-color: #ff8a00; }
+  .bg-error              { background-color: #ff4d4f; }
+
+  .border-lingua-purple  { border-color: #6c4ef5; }
+  .border-border         { border-color: #e5e7eb; }
+}
