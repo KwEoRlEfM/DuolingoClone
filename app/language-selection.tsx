@@ -1,5 +1,6 @@
 import { images } from "@/constants/images";
 import { languages } from "@/data/languages";
+import { useLanguageStore } from "@/store/useLanguageStore";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -17,6 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function LanguageSelection() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const { setSelectedLanguage } = useLanguageStore();
 
   const filtered = languages.filter((lang) =>
     lang.name.toLowerCase().includes(search.toLowerCase())
@@ -100,7 +102,11 @@ export default function LanguageSelection() {
           style={[styles.confirmBtn, !selectedId && styles.confirmBtnDisabled]}
           activeOpacity={0.85}
           disabled={!selectedId}
-          onPress={() => router.replace("/")}
+          onPress={() => {
+            const lang = languages.find((l) => l.id === selectedId);
+            if (lang) setSelectedLanguage(lang);
+            router.replace("/");
+          }}
         >
           <Text style={styles.confirmBtnText}>Confirm</Text>
         </TouchableOpacity>

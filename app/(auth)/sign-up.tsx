@@ -33,6 +33,7 @@ export default function SignUp() {
   const [showVerification, setShowVerification] = useState(false);
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isOAuthLoading, setIsOAuthLoading] = useState(false);
 
   const handleSignUp = async () => {
     if (!signUp) return;
@@ -78,13 +79,19 @@ export default function SignUp() {
 
   const handleOAuth = useCallback(
     async (strategy: "oauth_google" | "oauth_facebook" | "oauth_apple") => {
-      const { createdSessionId, setActive } = await startSSOFlow({ strategy });
-      if (createdSessionId && setActive) {
-        await setActive({ session: createdSessionId });
-        router.replace("/");
+      if (isOAuthLoading) return;
+      setIsOAuthLoading(true);
+      try {
+        const { createdSessionId, setActive } = await startSSOFlow({ strategy });
+        if (createdSessionId && setActive) {
+          await setActive({ session: createdSessionId });
+          router.replace("/");
+        }
+      } finally {
+        setIsOAuthLoading(false);
       }
     },
-    [startSSOFlow, router]
+    [isOAuthLoading, startSSOFlow, router]
   );
 
   const isSubmitting = fetchStatus === "fetching";
@@ -201,18 +208,21 @@ export default function SignUp() {
               label="Continue with Google"
               onPress={() => handleOAuth("oauth_google")}
               iconColor="#EA4335"
+              disabled={isOAuthLoading}
             />
             <SocialButton
               icon="logo-facebook"
               label="Continue with Facebook"
               onPress={() => handleOAuth("oauth_facebook")}
               iconColor="#1877F2"
+              disabled={isOAuthLoading}
             />
             <SocialButton
               icon="logo-apple"
               label="Continue with Apple"
               onPress={() => handleOAuth("oauth_apple")}
               iconColor="#000000"
+              disabled={isOAuthLoading}
             />
           </View>
 
@@ -249,17 +259,20 @@ function SocialButton({
   label,
   onPress,
   iconColor,
+  disabled,
 }: {
   icon: React.ComponentProps<typeof Ionicons>["name"];
   label: string;
   onPress: () => void;
   iconColor: string;
+  disabled?: boolean;
 }) {
   return (
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.85}
-      style={[styles.socialButton, { marginBottom: 12 }]}
+      disabled={disabled}
+      style={[styles.socialButton, { marginBottom: 12, opacity: disabled ? 0.5 : 1 }]}
     >
       <Ionicons name={icon} size={22} color={iconColor} />
       <Text style={styles.socialText}>{label}</Text>
