@@ -1,18 +1,18 @@
+import { images } from "@/constants/images";
+import { languages } from "@/data/languages";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { useState } from "react";
 import {
-  View,
+  Image,
+  ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  Image,
-  StyleSheet,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { languages } from "@/data/languages";
-import { images } from "@/constants/images";
 
 export default function LanguageSelection() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -235,6 +235,6 @@ const styles = StyleSheet.create({
   },
   earthImage: {
     width: "100%",
-    height: 200,
+    height: 130,
   },
 });
