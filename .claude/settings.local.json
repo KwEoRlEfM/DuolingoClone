@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "PowerShell(npm show *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git config *)",
+      "Bash(git branch *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(findstr credential *)",
+      "Bash(git -c credential.helper= push -u origin main)",
+      "Bash(gh auth *)"
     ]
   }
 }
