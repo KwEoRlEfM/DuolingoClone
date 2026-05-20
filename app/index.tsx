@@ -1,5 +1,5 @@
 import { useAuth, useClerk } from "@clerk/expo";
-import { Redirect } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { ActivityIndicator, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function Index() {
@@ -21,8 +21,15 @@ export default function Index() {
   return (
     <View style={styles.centered}>
       <Text style={styles.title}>Welcome to Lingua!</Text>
-      <TouchableOpacity style={styles.button} onPress={() => signOut()} activeOpacity={0.85}>
-        <Text style={styles.buttonText}>Sign Out</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/language-selection")}
+        activeOpacity={0.85}
+      >
+        <Text style={styles.buttonText}>Choose a Language</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.outlineButton} onPress={() => signOut()} activeOpacity={0.85}>
+        <Text style={styles.outlineButtonText}>Sign Out</Text>
       </TouchableOpacity>
     </View>
   );
@@ -51,5 +58,17 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
     fontSize: 15,
     color: "#ffffff",
+  },
+  outlineButton: {
+    borderWidth: 1.5,
+    borderColor: "#6c4ef5",
+    borderRadius: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+  },
+  outlineButtonText: {
+    fontFamily: "Poppins-SemiBold",
+    fontSize: 15,
+    color: "#6c4ef5",
   },
 });
