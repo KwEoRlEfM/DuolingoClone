@@ -13,7 +13,17 @@
       "Bash(gh auth *)",
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\" -Force)",
       "Bash(Select-Object Name, PSIsContainer)",
-      "Bash(awk '{print $NF}')"
+      "Bash(awk '{print $NF}')",
+      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\('@clerk/expo:', p.dependencies['@clerk/expo'] || 'NOT INSTALLED'\\); console.log\\('expo-secure-store:', p.dependencies['expo-secure-store'] || 'NOT INSTALLED'\\);\")",
+      "Bash(npx expo *)",
+      "Bash(node -e \"const p = require\\('./node_modules/@clerk/expo/package.json'\\); console.log\\('version:', p.version\\);\")",
+      "Bash(node -e \"const exp = require\\('./node_modules/@clerk/expo'\\); console.log\\('exports:', Object.keys\\(exp\\).filter\\(k => k.includes\\('Sign'\\) || k.includes\\('Auth'\\) || k.includes\\('OAuth'\\) || k.includes\\('use'\\)\\).join\\(', '\\)\\);\")",
+      "Bash(dir \"c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\\\\node_modules\\\\@clerk\\\\expo\")",
+      "Bash(powershell -Command \"Get-ChildItem 'c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\\\\node_modules\\\\@clerk' | Select-Object Name\")",
+      "Bash(powershell -Command \"Get-ChildItem 'c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\\\\node_modules\\\\@clerk\\\\clerk-js' | Select-Object Name\")",
+      "Bash(powershell -Command \"Get-ChildItem 'c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\\\\node_modules\\\\@clerk\\\\clerk-js\\\\dist' -Filter '*.d.ts' | Select-Object Name\")",
+      "Bash(powershell -Command \"Get-ChildItem 'c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\\\\node_modules\\\\@clerk\\\\expo\\\\dist\\\\hooks' | Select-Object Name\")",
+      "Bash(powershell -Command \"Get-ChildItem 'c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\\\\node_modules\\\\@clerk\\\\expo\\\\node_modules' -ErrorAction SilentlyContinue | Select-Object Name\")"
     ]
   }
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -13,13 +13,74 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useSignIn } from "@clerk/expo";
+import { useSSO } from "@clerk/expo";
+import * as WebBrowser from "expo-web-browser";
 import { images } from "@/constants/images";
 import VerificationModal from "@/components/VerificationModal";
+import type { Href } from "expo-router";
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function SignIn() {
   const router = useRouter();
+  const { signIn, fetchStatus } = useSignIn();
+  const { startSSOFlow } = useSSO();
+
   const [email, setEmail] = useState("");
   const [showVerification, setShowVerification] = useState(false);
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSignIn = async () => {
+    if (!signIn) return;
+    setErrorMessage("");
+    const { error } = await signIn.emailCode.sendCode({ emailAddress: email });
+    if (error) {
+      setErrorMessage(error.message ?? "Failed to send code. Please try again.");
+      return;
+    }
+    setShowVerification(true);
+  };
+
+  const handleVerify = async (code: string) => {
+    if (!signIn) return;
+    setVerifyLoading(true);
+    setErrorMessage("");
+    const { error } = await signIn.emailCode.verifyCode({ code });
+    if (error) {
+      setVerifyLoading(false);
+      setErrorMessage(error.message ?? "Invalid code. Please try again.");
+      return;
+    }
+    if (signIn.status === "complete") {
+      await signIn.finalize({
+        navigate: ({ decorateUrl }) => {
+          const url = decorateUrl("/");
+          router.replace(url as Href);
+        },
+      });
+    }
+    setVerifyLoading(false);
+  };
+
+  const handleResend = async () => {
+    if (!signIn) return;
+    await signIn.emailCode.sendCode({ emailAddress: email });
+  };
+
+  const handleOAuth = useCallback(
+    async (strategy: "oauth_google" | "oauth_facebook" | "oauth_apple") => {
+      const { createdSessionId, setActive } = await startSSOFlow({ strategy });
+      if (createdSessionId && setActive) {
+        await setActive({ session: createdSessionId });
+        router.replace("/");
+      }
+    },
+    [startSSOFlow, router]
+  );
+
+  const isSubmitting = fetchStatus === "fetching";
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -75,14 +136,21 @@ export default function SignIn() {
               />
             </View>
 
+            {!!errorMessage && !showVerification && (
+              <Text style={styles.inlineError}>{errorMessage}</Text>
+            )}
+
             {/* Sign In button */}
             <TouchableOpacity
               className="bg-lingua-purple rounded-[18px] py-5 items-center"
-              style={{ marginTop: 16 }}
-              onPress={() => setShowVerification(true)}
+              style={{ marginTop: 16, opacity: isSubmitting ? 0.6 : 1 }}
+              onPress={handleSignIn}
               activeOpacity={0.85}
+              disabled={isSubmitting || !email}
             >
-              <Text style={styles.buttonText}>Sign In</Text>
+              <Text style={styles.buttonText}>
+                {isSubmitting ? "Please wait…" : "Sign In"}
+              </Text>
             </TouchableOpacity>
 
             {/* Divider */}
@@ -106,19 +174,19 @@ export default function SignIn() {
             <SocialButton
               icon="logo-google"
               label="Continue with Google"
-              onPress={() => {}}
+              onPress={() => handleOAuth("oauth_google")}
               iconColor="#EA4335"
             />
             <SocialButton
               icon="logo-facebook"
               label="Continue with Facebook"
-              onPress={() => {}}
+              onPress={() => handleOAuth("oauth_facebook")}
               iconColor="#1877F2"
             />
             <SocialButton
               icon="logo-apple"
               label="Continue with Apple"
-              onPress={() => {}}
+              onPress={() => handleOAuth("oauth_apple")}
               iconColor="#000000"
             />
           </View>
@@ -145,7 +213,10 @@ export default function SignIn() {
         visible={showVerification}
         email={email}
         onClose={() => setShowVerification(false)}
-        onVerified={() => router.replace("/")}
+        onVerified={handleVerify}
+        onResend={handleResend}
+        isLoading={verifyLoading}
+        errorMessage={showVerification ? errorMessage : ""}
       />
     </SafeAreaView>
   );
@@ -254,5 +325,11 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
     fontSize: 13,
     color: "#6c4ef5",
+  },
+  inlineError: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 13,
+    color: "#d32f2f",
+    marginTop: 8,
   },
 });

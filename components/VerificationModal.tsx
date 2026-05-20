@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -15,7 +16,10 @@ interface Props {
   visible: boolean;
   email: string;
   onClose: () => void;
-  onVerified: () => void;
+  onVerified: (code: string) => void;
+  onResend?: () => void;
+  isLoading?: boolean;
+  errorMessage?: string;
 }
 
 export default function VerificationModal({
@@ -23,6 +27,9 @@ export default function VerificationModal({
   email,
   onClose,
   onVerified,
+  onResend,
+  isLoading = false,
+  errorMessage,
 }: Props) {
   const [code, setCode] = useState("");
   const inputRef = useRef<TextInput>(null);
@@ -37,8 +44,8 @@ export default function VerificationModal({
   const handleCodeChange = (text: string) => {
     const digits = text.replace(/[^0-9]/g, "").slice(0, 6);
     setCode(digits);
-    if (digits.length === 6) {
-      setTimeout(() => onVerified(), 300);
+    if (digits.length === 6 && !isLoading) {
+      onVerified(digits);
     }
   };
 
@@ -91,6 +98,7 @@ export default function VerificationModal({
             maxLength={6}
             style={styles.hiddenInput}
             caretHidden
+            editable={!isLoading}
           />
 
           {/* Visible digit boxes */}
@@ -115,9 +123,21 @@ export default function VerificationModal({
               ))}
           </TouchableOpacity>
 
+          {isLoading && (
+            <ActivityIndicator
+              size="small"
+              color="#6c4ef5"
+              style={{ marginBottom: 12 }}
+            />
+          )}
+
+          {!!errorMessage && (
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          )}
+
           <View style={styles.resendRow}>
             <Text style={styles.resendText}>Didn't receive it? </Text>
-            <TouchableOpacity activeOpacity={0.7}>
+            <TouchableOpacity activeOpacity={0.7} onPress={onResend} disabled={!onResend}>
               <Text style={styles.resendLink}>Resend code</Text>
             </TouchableOpacity>
           </View>
@@ -188,7 +208,7 @@ const styles = StyleSheet.create({
   codeRow: {
     flexDirection: "row",
     gap: 10,
-    marginBottom: 32,
+    marginBottom: 16,
   },
   codeBox: {
     width: 46,
@@ -221,6 +241,7 @@ const styles = StyleSheet.create({
   resendRow: {
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 8,
   },
   resendText: {
     fontFamily: "Poppins-Regular",
@@ -231,5 +252,12 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
     fontSize: 14,
     color: "#6c4ef5",
+  },
+  errorText: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 13,
+    color: "#d32f2f",
+    textAlign: "center",
+    marginBottom: 12,
   },
 });
