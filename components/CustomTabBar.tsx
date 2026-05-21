@@ -23,8 +23,8 @@ const TAB_CONFIG = [
   {
     route: "ai-teacher",
     label: "AI Teacher",
-    icon: "hardware-chip-outline",
-    iconActive: "hardware-chip",
+    icon: "sparkles-outline",
+    iconActive: "sparkles",
   },
   {
     route: "chat",

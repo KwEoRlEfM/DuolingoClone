@@ -24,7 +24,10 @@
       "Bash(powershell -Command \"Get-ChildItem 'c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\\\\node_modules\\\\@clerk\\\\clerk-js\\\\dist' -Filter '*.d.ts' | Select-Object Name\")",
       "Bash(powershell -Command \"Get-ChildItem 'c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\\\\node_modules\\\\@clerk\\\\expo\\\\dist\\\\hooks' | Select-Object Name\")",
       "Bash(powershell -Command \"Get-ChildItem 'c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\\\\node_modules\\\\@clerk\\\\expo\\\\node_modules' -ErrorAction SilentlyContinue | Select-Object Name\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Kerem\\\\Desktop\\\\DuolingoClone\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)"
     ]
   }
 }
